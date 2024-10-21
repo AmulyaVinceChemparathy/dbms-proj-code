@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Usecase</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1 class="mt-5">Update Usecase</h1>
+        <form action="/usecase/update/{{ usecases[0] }}" method="post">
+            <div class="form-group">
+                <label for="title">Title:</label>
+                <input type="text" class="form-control" id="title" name="title" value="{{ usecases[2] }}" required>
+            </div>
+            <div class="form-group">
+                <label for="description">Description:</label>
+                <textarea class="form-control" id="description" name="description" required>{{ usecases[3] }}</textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Update Usecase</button>
+        </form>
+        <a href="/usecases/{{client_id}}" class="btn btn-secondary mt-3">Back to Usecases</a>
+    </div>
+</body>
+</html>

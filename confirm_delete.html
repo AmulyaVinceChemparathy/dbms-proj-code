@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirm Delete</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1 class="mt-5">Confirm Delete</h1>
+        <p>Client ID {{ client_id }} has {{ usecase_count }} usecase(s) present.</p>
+        <p>Are you sure you want to delete this client and all its usecases?</p>
+        <form action="/client/delete/{{ client_id }}" method="post">
+            <button type="submit" class="btn btn-danger">Confirm Delete</button>
+            <a href="/clients" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Client</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .error {
+            color: red;
+        }
+    </style>
+    <script>
+        function validateForm() {
+            let name = document.getElementById('name').value;
+            let client_id = document.getElementById('client_id').value;
+            let client_manager = document.getElementById('client_manager').value;
+            let contact_info = document.getElementById('contact_info').value;
+            let errorMessage = '';
+
+            // Regular expression for alphanumeric check
+            let alphanumericRegex = /^[A-Za-z0-9]+$/;
+            let nameRegex = /\d/;  // Used to check if the name contains digits
+
+            if (nameRegex.test(name)) {
+                errorMessage += 'Name should not contain numbers.\n';
+            }
+
+            if (!alphanumericRegex.test(client_id)) {
+                errorMessage += 'Client ID can only contain letters and numbers.\n';
+            }
+
+            if (nameRegex.test(client_manager)) {
+                errorMessage += 'Client Manager should not contain numbers.\n';
+            }
+
+            if (contact_info === '') {
+                errorMessage += 'Contact Information is required.\n';
+            }
+
+            if (errorMessage) {
+                document.getElementById('error-message').innerText = errorMessage;
+                return false;  // Prevent form submission
+            }
+
+            return true;  // Allow form submission
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1 class="mt-5">Add Client</h1>
+        <div id="error-message" class="error"></div>
+        <form action="/client/add" method="post" onsubmit="return validateForm()">
+            <div class="form-group">
+                <label for="client_id">Client ID:</label>
+                <input type="text" class="form-control" id="client_id" name="client_id" required>
+            </div>
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" class="form-control" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="client_manager">Client Manager:</label>
+                <input type="text" class="form-control" id="client_manager" name="client_manager" required>
+            </div>
+            <div class="form-group">
+                <label for="contact_info">Contact Information:</label>
+                <input type="text" class="form-control" id="contact_info" name="contact_info" required> <!-- Changed to text -->
+            </div>
+            <button type="submit" class="btn btn-primary">Add Client</button>
+        </form>
+        <a href="/clients" class="btn btn-secondary mt-3">Back to Clients</a>
+    </div>
+</body>
+</html>

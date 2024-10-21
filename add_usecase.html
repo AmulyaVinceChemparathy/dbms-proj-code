@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <title>Add Service</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .error {
+            color: red;
+        }
+        .bulleted {
+            list-style-type: disc;
+            margin-left: 20px;
+        }
+    </style>
+    <script>
+        function validateForm() {
+            let service_id = document.getElementById('service_id').value;
+            let client_id = document.getElementById('client_id').value;
+            let start_date = document.getElementById('start_date').value;
+            let status = document.getElementById('status').value;
+            let custom_price = document.getElementById('custom_price').value;
+            let errorMessage = '';
+
+            // Regular expression for alphanumeric check (letters and numbers)
+            let alphanumericRegex = /^[A-Za-z0-9]+$/;
+            let nameRegex = /\d/;  // To check if a field contains digits (for developing team validation)
+            let dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+
+            // Validate service ID (alphanumeric)
+            if (!alphanumericRegex.test(service_id)) {
+                errorMessage += 'Service ID can only contain letters and numbers.\n';
+            }
+                if (!dateRegex.test(start_date)) {
+            errorMessage += 'Start Date must be in the format YYYY-MM-DD.\n';
+    }
+
+            // Validate service description (required field)
+            if (!alphanumericRegex.test(client_id)) {
+                errorMessage += 'Service ID can only contain letters and numbers.\n';
+            }
+
+            // Validate resources required (required field)
+            if (status.trim() === '') {
+                errorMessage += 'Status required is a mandatory field.\n';
+            }
+
+            // Validate estimated cost (should be a positive number)
+            if (isNaN(custom_price) ||custom_price <= 0) {
+                errorMessage += 'Custom price must be a positive number.\n';
+            }
+
+
+            if (errorMessage) {
+                document.getElementById('error-message').innerText = errorMessage;
+                return false;
+            }
+
+            return true;
+        }
+
+        function updateResourceList() {
+            const resourcesRequired = document.getElementById('resources_required').value;
+            const resourceList = document.getElementById('resource_list');
+
+            // Clear the current list
+            resourceList.innerHTML = '';
+
+            // Split the resources by line breaks and trim whitespace
+            const resources = resourcesRequired.split('\n').map(resource => resource.trim()).filter(resource => resource !== '');
+
+            // Create a list item for each resource and append it to the list
+            resources.forEach(resource => {
+                const li = document.createElement('li');
+                li.textContent = resource;
+                resourceList.appendChild(li);
+            });
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1 class="mt-5">Add Service</h1>
+        <div id="error-message" class="error"></div>
+        <form action="/usecase/add/{{ client_id }}" method="post" onsubmit="return validateForm()">
+                <div class="form-group">
+                    <label for="service_id">Service ID:</label>
+                    <input type="text" class="form-control" id="service_id" name="service_id" required>
+                </div>
+                <div class="form-group">
+                    <label for="client_id">Client ID:</label>
+                    <input type="number" class="form-control" id="client_id" name="client_id" required>
+                </div>
+            
+                <div class="form-group">
+                    <label for="start_date">Start Date:</label>
+                    <input type="date" class="form-control" id="start_date" name="start_date" required>
+                </div>
+            
+                <div class="form-group">
+                    <label for="status">Status:</label>
+                    <input type="text" class="form-control" id="status" name="status" maxlength="50" required>
+                </div>
+            
+                <div class="form-group">
+                    <label for="custom_price">Custom Price (up to 2 decimal places):</label>
+                    <input type="number" class="form-control" id="custom_price" name="custom_price" step="0.01" min="0" required>
+                </div>
+            <button type="submit" class="btn btn-primary">Add Service</button>
+        </form>
+        <a href="/usecases/{{ client_id }}" class="btn btn-secondary mt-3">Back to Services</a>
+
+    </div>
+</body>
+</html>

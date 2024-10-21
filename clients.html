@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clients</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1 class="mt-5">Clients</h1>
+        <table class="table table-striped mt-3">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Client Manager</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for client in clients %}
+                <tr>
+                    <td>{{ client[0] }}</td> <!-- Adjusted for dynamic client ID -->
+                    <td>{{ client[1] }}</td> <!-- Assuming name is the second column -->
+                    <td>{{ client[2] }}</td> <!-- Assuming client manager is the third column -->
+                    <td>
+                        <a href="/usecases/{{ client[0] }}" class="btn btn-dark btn-sm">Services</a>
+                        <a href="/client/update/{{ client[0] }}" class="btn btn-warning btn-sm">Update</a>
+                        <a href="/client/delete/{{ client[0] }}" class="btn btn-danger btn-sm">Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <a href="/client/add" class="btn btn-primary mt-3">Add Client</a>
+    </div>
+</body>
+</html>
