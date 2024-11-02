@@ -13,35 +13,34 @@
             <thead>
                 <tr>
                     <th>Service ID</th>
-                    <th>Client ID</th>
-                    <th>Start Date</th>
-                    <th>Status</th>
-                    <th>Custom Price</th>
+                    <th>Description</th>
+                    <th>Resources Required</th>
+                    <th>Estimated Cost</th>
+                    <th>Developing Team</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
-                {% for service in usecases %}
+                {% for service in services %}
                 <tr>
                     <td>{{ service[0] }}</td> <!-- service_id -->
-                    <td>{{ service[1] }}</td> <!-- client_id -->
-                    <td>{{ service[2] }}</td> <!-- start_date -->
-                    <td>{{ service[3] }}</td> <!-- status -->
-                    <td>{{ service[4] }}</td> <!-- custom_price -->
+                    <td>{{ service[1] }}</td> <!-- service_description -->
+                    <td>{{ service[2] }}</td> <!-- resources_required -->
+                    <td>{{ service[3] }}</td> <!-- estimated_cost -->
+                    <td>{{ service[4] }}</td> <!-- developing_team -->
                     <td>
-                        <a href="/usecases/update/{{ service[0] }}" class="btn btn-warning btn-sm">Update</a>
-                        <a href="/usecases/delete/{{ service[0] }}" class="btn btn-danger btn-sm">Delete</a>
+                        <a href="/service/update/{{ service[0] }}" class="btn btn-warning btn-sm">Update</a>
+                        <a href="/service/delete/{{ service[0] }}" class="btn btn-danger btn-sm">Delete</a>
                     </td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
-        
-        <!-- Button for Adding Service -->
-        <a href="/usecases/add/{{ client[0] }}" class="btn btn-primary mt-3">Add Service</a>
 
-        <!-- Back Button -->
-        <a href="/clients" class="btn btn-dark mt-3">Back To Clients</a>
+        <!-- Button for Adding Service -->
+        <a href="/services/add" class="btn btn-primary mt-3">Add Service</a>
+
+
     </div>
 </body>
 </html>

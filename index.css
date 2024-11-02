@@ -1,0 +1,94 @@
+.bold-white {
+    font-weight: bold;
+    margin-top: 22px;
+    color: white;
+    white-space: nowrap;
+}
+.logo {
+    position: fixed; /* Keeps it fixed on scroll */
+    top: 0;          /* Sticks the logo at the top of the page */
+    left: 0;         /* Aligns the logo to the left */
+    padding: 10px 20px; /* Adds some padding for space */
+    z-index: 1000;   /* Ensures the logo stays on top of other elements */
+}
+
+html {
+    scroll-behavior: smooth;
+}
+.services {
+    margin-bottom: 50px; /* Adjust the value as needed */
+}
+.table {
+    color: #e0e0e0; /* Lighter color for the table text */
+    background-color: rgba(255, 255, 255, 0.1); /* Slightly transparent background for the table */
+    width: 100%; /* Make the table fill the width of the container */
+    margin: 20px auto; /* Center the table */
+    border-collapse: collapse; /* Merge borders for a cleaner look */
+}
+
+/* Table header styling */
+.table thead th {
+    background-color: rgba(255, 255, 255, 0.2); /* Light background for headers */
+    color: #ffffff; /* White text for headers */
+    font-weight: bold;
+    padding: 12px;
+    text-align: left; /* Align text to the left */
+}
+
+/* Table row styling */
+.table tbody tr {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Add subtle border between rows */
+}
+
+.table tbody td {
+    padding: 10px;
+    color: #f0f0f0; /* Lighter color for table data */
+}
+
+/* Hover effect for table rows */
+.table tbody tr:hover {
+    background-color: rgba(255, 255, 255, 0.05); /* Light hover effect */
+}
+
+/* Button styling */
+.btn {
+    margin-right: 5px; /* Add space between buttons */
+    padding: 5px 10px;
+}
+
+/* Change Services button to blue */
+.btn-dark {
+    background-color: #007bff !important; /* Blue background */
+    border-color: #007bff !important; /* Blue border */
+}
+
+/* Styling the buttons section below the table */
+.buttons {
+    display: flex;
+    justify-content: center; /* Center the buttons */
+    margin-top: 20px;
+}
+
+.green-button a, .orange-button a {
+    padding: 10px 20px;
+    border-radius: 4px;
+    text-decoration: none;
+    color: #fff;
+    font-weight: bold;
+}
+
+.green-button a {
+    background-color: #28a745; /* Green color */
+}
+
+.orange-button a {
+    background-color: #ff8c00; /* Orange color */
+}
+
+.green-button a:hover, .orange-button a:hover {
+    background-color: #006400; /* Dark green on hover */
+}
+
+.orange-button a:hover {
+    background-color: #ff4500; /* Darker orange on hover */
+}

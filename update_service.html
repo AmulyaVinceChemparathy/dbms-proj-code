@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Service</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .error {
+            color: red;
+        }
+    </style>
+    <script>
+        function validateForm() {
+            let serviceDescription = document.getElementById('service_description').value;
+            let resourcesRequired = document.getElementById('resources_required').value;
+            let estimatedCost = document.getElementById('estimated_cost').value;
+            let developingTeam = document.getElementById('developing_team').value;
+            let actions = document.getElementById('actions').value;
+            let errorMessage = '';
+
+            // Regular expression for alphanumeric check
+            let numericRegex = /^\d+(\.\d{1,2})?$/; // Allow decimal numbers
+
+            if (serviceDescription.trim() === '') {
+                errorMessage += 'Service Description is required.\n';
+            }
+
+            if (resourcesRequired.trim() === '') {
+                errorMessage += 'Resources Required is required.\n';
+            }
+
+            if (!numericRegex.test(estimatedCost)) {
+                errorMessage += 'Estimated Cost must be a valid number.\n';
+            }
+
+            if (developingTeam.trim() === '') {
+                errorMessage += 'Developing Team is required.\n';
+            }
+
+            if (actions.trim() === '') {
+                errorMessage += 'Actions are required.\n';
+            }
+
+            if (errorMessage) {
+                document.getElementById('error-message').innerText = errorMessage;
+                return false;  // Prevent form submission
+            }
+
+            return true;  // Allow form submission
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1 class="mt-5">Update Service</h1>
+        <div id="error-message" class="error"></div>
+        <form action="/service/update/{{ service[0] }}" method="post" onsubmit="return validateForm()">
+            <div class="form-group">
+                <label for="service_id">Service ID:</label>
+                <input type="hidden" id="service_id" name="service_id" value="{{ service[0] }}" required>
+            </div>
+            <div class="form-group">
+                <label for="service_description">Service Description:</label>
+                <textarea class="form-control" id="service_description" name="service_description" required>{{ service[1] }}</textarea>
+            </div>
+            <div class="form-group">
+                <label for="resources_required">Resources Required:</label>
+                <textarea class="form-control" id="resources_required" name="resources_required" rows="5" required>{{ service[2] }}</textarea>
+            </div>
+            <div class="form-group">
+                <label for="estimated_cost">Estimated Cost:</label>
+                <input type="number" class="form-control" id="estimated_cost" name="estimated_cost" step="0.01" value="{{ service[3] }}" required>
+            </div>
+            <div class="form-group">
+                <label for="developing_team">Developing Team:</label>
+                <input type="text" class="form-control" id="developing_team" name="developing_team" value="{{ service[4] }}" required>
+            </div>
+            <div class="form-group">
+                <label for="actions">Actions:</label>
+                <input type="text" class="form-control" id="actions" name="actions" value="{{ service[5] }}" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Update Service</button>
+        </form>
+        <a href="/services" class="btn btn-secondary mt-3">Back to Services</a>
+    </div>
+</body>
+</html>

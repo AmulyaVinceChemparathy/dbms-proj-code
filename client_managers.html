@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client Managers</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-image: url("../static/usecase.jpg");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+        .container {
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="mt-5">Client Managers</h1>
+        <table class="table table-striped mt-3">
+            <thead>
+                <tr>
+                    <th>Client Manager ID</th>
+                    <th>Client Manager Name</th>
+                    <th>Contact Information</th>
+                    <th>Department</th>
+                    <th>Assigned Projects</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for manager in managers %}
+                <tr>
+                    <td>{{ manager[0] }}</td> <!-- Assuming client_manager_id is the first column -->
+                    <td>{{ manager[1] }}</td> <!-- Assuming name is the second column -->
+                    <td>{{ manager[2] }}</td> <!-- Assuming contact_info is the third column -->
+                    <td>{{ manager[3] }}</td> <!-- Assuming department is the fourth column -->
+                    <td>{{ manager[4] }}</td> <!-- Assuming assigned_projects is the fifth column -->
+                    <td>
+                        <a href="{{ url_for('update_client_manager', id=manager[0]) }}" class="btn btn-warning btn-sm">Update</a>
+                        <a href="{{ url_for('delete_client_manager', id=manager[0]) }}" class="btn btn-danger btn-sm">Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+        <a href="/add_client_manager" class="btn btn-primary mt-3">Add Client Manager</a>
+    </div>
+</body>
+</html>
