@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirm Delete</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1 class="mt-5">Confirm Delete</h1>
+        <p>Are you sure you want to permanently delete Service ID {{ service_id }}?</p>
+        <form action="/usecases/delete/{{ service_id }}" method="post">
+            <button type="submit" class="btn btn-danger">Confirm Delete</button>
+            <a href="/usecases/{{ client_id }}" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+</body>
+</html>

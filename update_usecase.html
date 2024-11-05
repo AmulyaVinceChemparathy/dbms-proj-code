@@ -9,18 +9,24 @@
 <body>
     <div class="container">
         <h1 class="mt-5">Update Usecase</h1>
-        <form action="/usecase/update/{{ usecases[0] }}" method="post">
+        <form action="/usecases/update/{{ usecase[0] }}" method="post">
+            <input type="hidden" name="service_id" value="{{ usecase[0] }}"> <!-- Hidden field for service ID -->
+            <input type="hidden" name="client_id" value="{{ usecase[1] }}"> <!-- Hidden field for client ID -->
             <div class="form-group">
-                <label for="title">Title:</label>
-                <input type="text" class="form-control" id="title" name="title" value="{{ usecases[2] }}" required>
+                <label for="start_date">Start Date:</label>
+                <input type="date" class="form-control" id="start_date" name="start_date" value="{{ usecase[2] }}" required>
             </div>
             <div class="form-group">
-                <label for="description">Description:</label>
-                <textarea class="form-control" id="description" name="description" required>{{ usecases[3] }}</textarea>
+                <label for="status">Status:</label>
+                <input type="text" class="form-control" id="status" name="status" value="{{ usecase[3] }}" required>
+            </div>
+            <div class="form-group">
+                <label for="custom_price">Custom Price:</label>
+                <input type="number" class="form-control" id="custom_price" name="custom_price" step="0.01" value="{{ usecase[4] }}" required>
             </div>
             <button type="submit" class="btn btn-primary">Update Usecase</button>
         </form>
-        <a href="/usecases/{{client_id}}" class="btn btn-secondary mt-3">Back to Usecases</a>
+        <a href="/usecases/{{ usecase[1] }}" class="btn btn-secondary mt-3">Back to Usecases</a> <!-- Use case[1] for client_id -->
     </div>
 </body>
 </html>

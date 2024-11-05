@@ -170,39 +170,83 @@ def add_usecase(client_id):
     
     return render_template('add_usecase.html', client_id=client_id)
 # Route to update a specific use case
-@app.route('/usecase/update/<int:id>', methods=['GET', 'POST'])
+@app.route('/usecases/update/<int:id>', methods=['GET', 'POST'])
 def update_usecase(id):
     conn = get_db_connection()
     cur = conn.cursor()
-    cur.execute("SELECT client_id FROM client_Service WHERE id = %s", (id,))
-    client_id = cur.fetchone()[0]
+    
+    # Fetch current usecase details based on ID
+    cur.execute("SELECT * FROM client_service WHERE service_id = %s", (id,))
+    usecase = cur.fetchone()
+    
+    if usecase is None:
+        return "Usecase not found", 404
+
+    client_id = usecase[1]  # Assuming the second column is client_id
+
     if request.method == 'POST':
-        title = request.form['title']
-        description = request.form['description']
-        cur.execute("UPDATE client_Service SET title = %s, description = %s WHERE id = %s",
-                    (title, description, id))
+        # Retrieve form data
+        service_id = request.form['service_id']
+        client_id = request.form['client_id']
+        start_date = request.form['start_date']
+        status = request.form['status']
+        custom_price = float(request.form['custom_price'])
+
+        # Update the use case
+        cur.execute(
+            "UPDATE client_service SET start_date = %s, status = %s, custom_price = %s WHERE service_id = %s",
+            (start_date, status, custom_price, id)
+        )
         conn.commit()
+
         cur.close()
         conn.close()
         return redirect(f'/usecases/{client_id}')
-    cur.execute("SELECT * FROM client_Service WHERE id = %s", (id,))
-    usecase = cur.fetchone()
+    
     cur.close()
     conn.close()
     return render_template('update_usecase.html', usecase=usecase, client_id=client_id)
 
-# Route to delete a use case
-@app.route('/usecase/delete/<int:id>', methods=['GET'])
+
+@app.route('/usecases/delete/<int:id>', methods=['GET', 'POST'])
 def delete_usecase(id):
     conn = get_db_connection()
     cur = conn.cursor()
-    cur.execute("SELECT client_id FROM usecases WHERE client_id = %s", (id,))
-    client_id = cur.fetchone()[0]
-    cur.execute("DELETE FROM client_service WHERE service_id = %s", (id,))
-    conn.commit()
+    
+    # Check if the service_id exists in client_service and get client_id
+    cur.execute("SELECT client_id FROM client_service WHERE service_id = %s", (id,))
+    client_info = cur.fetchone()
+    
+    if client_info:
+        client_id = client_info[0]  # client_id associated with this service
+        
+        if request.method == 'POST':
+            try:
+                # Delete only the specific service_id from client_service
+                cur.execute("DELETE FROM client_service WHERE service_id = %s", (id,))
+                conn.commit()
+            except Exception as e:
+                conn.rollback()  # Rollback if there's an error
+                print(f"Error occurred: {e}")
+                return f"An error occurred while deleting the service: {e}", 500
+            finally:
+                cur.close()
+                conn.close()
+            
+            # Redirect to the use cases page for the client
+            return redirect(f'/usecases/{client_id}')
+        
+        # Render the confirmation template if the request is GET
+        cur.close()
+        conn.close()
+        return render_template('confirm_delete.html', service_id=id, client_id=client_id)
+    
+    # If service_id is not found, return 404
     cur.close()
     conn.close()
-    return redirect(f'/usecases/{client_id}')
+    return "Service ID not found.", 404
+
+
 
 # Route to display all services (general services page)
 @app.route('/services', methods=['GET'])
@@ -221,9 +265,10 @@ def display_services():
     return render_template('services.html', services=services)
 
 
-@app.route('/service/add', methods=['GET', 'POST'])
+@app.route('/services/add', methods=['GET', 'POST'])
 def add_service():
     if request.method == 'POST':
+        service_id = request.form['service_id']  # Get the service ID
         service_description = request.form['service_description']
         resources_required = request.form['resources_required']
         estimated_cost = float(request.form['estimated_cost'])
@@ -234,8 +279,8 @@ def add_service():
         cur = conn.cursor()
         try:
             cur.execute(
-                "INSERT INTO services (service_description, resources_required, estimated_cost, developing_team, actions) VALUES (%s, %s, %s, %s, %s)",
-                (service_description, resources_required, estimated_cost, developing_team, actions)
+                "INSERT INTO services (service_id, service_description, resources_required, estimated_cost, developing_team, actions) VALUES (%s, %s, %s, %s, %s, %s)",
+                (service_id, service_description, resources_required, estimated_cost, developing_team, actions)
             )
             conn.commit()
         except Exception as e:
@@ -247,6 +292,8 @@ def add_service():
 
         return redirect('/services')
     return render_template('add_services.html')
+
+
 
 @app.route('/service/delete/<int:id>', methods=['GET', 'POST'])
 def delete_service(id):
